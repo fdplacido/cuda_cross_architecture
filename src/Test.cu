@@ -28,8 +28,8 @@ void test(void)
   Allen::memcpy(d_y, y, N*sizeof(float), Allen::memcpyHostToDevice);
 
 
-const dim3 grid_dim {(N+255)/256, 1, 1};
-const dim3 block_dim {256, 1, 1};
+  const dim3 grid_dim {(N+255)/256, 1, 1};
+  const dim3 block_dim {256, 1, 1};
 
 
 #ifdef TARGET_DEVICE_CPU

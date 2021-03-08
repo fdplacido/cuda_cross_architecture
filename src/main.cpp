@@ -1,6 +1,8 @@
-#include "Test.cuh"
+//#include "Test.cuh"
+#include "matrixmul.h"
 
-int main(int argc, char *argv[])
+int main()
 {
-  test();
+  test2();
+  return 0;
 }

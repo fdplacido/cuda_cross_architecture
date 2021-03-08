@@ -65,10 +65,6 @@ set_property(CACHE HIP_ARCH PROPERTY STRINGS gfx900 gfx902 gfx904 gfx906 gfx908 
 # Unrestricted options
 # --------------------
 
-# Configured sequence
-set(SEQUENCE hlt1_pp_default CACHE STRING "Configured sequence")
-message(STATUS "Configured sequence: " ${SEQUENCE})
-
 # Configured CPU architecture
 set(CPU_ARCH native CACHE STRING "Target CPU architecture")
 message(STATUS "CPU_ARCH: " ${CPU_ARCH})
@@ -233,8 +229,7 @@ if(TARGET_DEVICE STREQUAL "CUDA" OR TARGET_DEVICE STREQUAL "CUDACLANG")
     if(CUDA_ARCH STREQUAL "MAX")
       set(OUTPUTFILE ${CMAKE_BINARY_DIR}/cuda_arch) # No suffix required
       set(CUDAFILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/utils/cuda_arch.cu)
-      # execute_process(COMMAND ${CMAKE_CUDA_COMPILER} -std=c++17 -lcuda ${CUDAFILE} -o ${OUTPUTFILE})
-      execute_process(COMMAND ${CMAKE_CUDA_COMPILER} -std=c++14 -lcuda ${CUDAFILE} -o ${OUTPUTFILE})
+      execute_process(COMMAND ${CMAKE_CUDA_COMPILER} -std=c++17 -lcuda ${CUDAFILE} -o ${OUTPUTFILE})
       if(CUDA_ARCH STREQUAL "MAX")
         set(CHECK_ARGS "-l")
       endif()
@@ -448,8 +443,7 @@ elseif(TARGET_DEVICE STREQUAL "CUDA")
   set(CMAKE_CUDA_FLAGS_RELEASE "-O3 -DNDEBUG --generate-line-info")
   set(CMAKE_CUDA_FLAGS_DEBUG "-G -g -DALLEN_DEBUG")
   set(CUDA_PROPAGATE_HOST_FLAGS OFF)
-  # set(CUDA_STANDARD 17)
-  set(CUDA_STANDARD 14)
+  set(CUDA_STANDARD 17)
 
   option(CUDA_VEBOSE_BUILD "CUDA verbose build" OFF)
   if (CUDA_VERBOSE_BUILD)
@@ -685,7 +679,8 @@ include_directories(backend/include)
 
 #common libraries
 # allen_add_host_library(Common STATIC ${common_sources})
-allen_add_executable(Allen src/main.cpp src/Test.cu)
+# allen_add_executable(Allen src/main.cpp src/Test.cu src/matrixmul.cu src/kernel.cu)
+allen_add_executable(Allen src/main.cpp src/matrixmul.cu src/kernel.cu)
 
 target_link_libraries(Allen PUBLIC
   Backend
